@@ -60,6 +60,9 @@ fi
 final_path=/var/www/$app
 ynh_app_setting_set "$app" final_path "$final_path"
 
+# PHP-FPM and && Conf 
+POOL_FPM
+
 # We download the sources and check the md5sum
 SFILE=`sudo cat ../sources/source_file`;
 sudo wget -nv -i ../sources/source_url -O ${SFILE}.tar.gz
