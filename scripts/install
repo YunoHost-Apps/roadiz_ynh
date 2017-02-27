@@ -70,7 +70,21 @@ sudo cp -a ../sources/roadiz-src-master/. $final_path
 
 # Installation
 # Get Composer: 
+pushd $final_path
+sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+sudo php composer-setup.php
+sudo php -r "unlink('composer-setup.php');"
+sudo ./composer.phar install --no-dev -o;
+sudo ./bin/roadiz install -n
+sudo ./bin/roadiz generate:nsentities;
+sudo sudo php ./bin/roadiz users:create $admin_name -n
+popd
 
+# Set permissions
+sudo chown www-data:www-data $final_path -R
+sudo chmod 775 $final_path -R
+sudo rm $final_path/install.php
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
 sed -i "s@YNH_WWW_PATH@$path@g"         ../conf/nginx.conf
