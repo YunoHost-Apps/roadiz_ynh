@@ -1,11 +1,18 @@
 #!/bin/bash
 
-app=$YNH_APP_INSTANCE_NAME
 set -u
 # Source app helpers
 source /usr/share/yunohost/helpers
 
+# retrieve arguments
+app=$YNH_APP_INSTANCE_NAME
+dbname=$app
+dbuser=$app
 domain=$(ynh_app_setting_get $app domain)
+
+# Drop MySQL database and user
+ynh_mysql_drop_db "$dbname"
+ynh_mysql_drop_user "$dbuser"
 
 sudo rm -rf /var/www/$app
 sudo rm -f /etc/nginx/conf.d/$domain.d/$app.conf
