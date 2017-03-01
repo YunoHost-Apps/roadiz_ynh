@@ -66,7 +66,7 @@ SFILE=`sudo cat ../sources/source_file`;
 sudo wget -nv -i ../sources/source_url -O ${SFILE}.tar.gz
 sudo md5sum -c ../sources/source_md5 --status || (echo "Corrupt source" >&2 && false)
 sudo tar xvf ${SFILE}.tar.gz -C ../sources/
-sudo cp -a ../sources/roadiz-src-master/. $final_path
+sudo cp -r -a ../sources/roadiz-0.17.0/. $final_path
 
 # Modify the config.yml
 sed -i "s@db_user@$db_user@g"         ../conf/config.yml
