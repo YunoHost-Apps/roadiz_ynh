@@ -28,8 +28,6 @@ CHECK_FINALPATH	# Vérifie que le dossier de destination n'est pas déjà utilis
 # sudo apt-get -y -qq install php5-mysql
 
 # Install dependencies using Helpers
-ynh_package_install_from_equivs ../conf/abantecart-deps.control \
-|| ynh_die "Unable to install dependencies"
 
 # Check password strength
 [[ ${#admin_pass} -gt 5 ]] || ynh_die \
