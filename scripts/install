@@ -1,13 +1,44 @@
 #!/bin/bash
 
+#=================================================
+# GENERIC STARTING
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source .fonctions
-set -eu
 source /usr/share/yunohost/helpers
 
-# Retrieve app id
-app=$YNH_APP_INSTANCE_NAME
+#=================================================
+# MANAGE FAILURE OF THE SCRIPT
+#=================================================
 
-# Retrieve arguments
+ynh_check_error	# Active trap pour arrêter le script si une erreur est détectée.
+
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
+#!/bin/bash
+
+#=================================================
+# GENERIC STARTING
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source .fonctions
+source /usr/share/yunohost/helpers
+
+#=================================================
+# MANAGE FAILURE OF THE SCRIPT
+#=================================================
+
+ynh_check_error	# Active trap pour arrêter le script si une erreur est détectée.
+
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
+
 domain=$YNH_APP_ARG_DOMAIN
 path=$YNH_APP_ARG_PATH
 is_public=$YNH_APP_ARG_IS_PUBLIC
@@ -15,32 +46,39 @@ admin_name=$YNH_APP_ARG_ADMIN_NAME
 admin_pass=$YNH_APP_ARG_ADMIN_PASS
 admin_email=$YNH_APP_ARG_ADMIN_EMAIL
 
-# Vérifie que les variables ne sont pas vides.
-CHECK_VAR "$app" "app name not set"
+app=$YNH_APP_INSTANCE_NAME
 
-CHECK_PATH	# Vérifie et corrige la syntaxe du path.
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THIS ARGS
+#=================================================
+
+CHECK_USER "$admin"	# Vérifie la validité de l'user admin
+path_url=$(ynh_normalize_url_path $path_url)	# Vérifie et corrige la syntaxe du path.
 CHECK_DOMAINPATH	# Vérifie la disponibilité du path et du domaine.
-
 CHECK_FINALPATH	# Vérifie que le dossier de destination n'est pas déjà utilisé.
 
-# Install dependency to convert tracks to a readable format for the browser
-# sudo apt-get update
-# sudo apt-get -y -qq install php5-mysql
+#=================================================
+# STORE SETTINGS FROM MANIFEST
+#=================================================
 
-# Install dependencies using Helpers
-
-# Check password strength
-[[ ${#admin_pass} -gt 5 ]] || ynh_die \
-"The password is too weak, it must be longer than 5 characters"
-
-# Save app settings
 user="$app"
 ynh_app_setting_set "$app" is_public "$is_public"
 ynh_app_setting_set "$app" admin_pass "$admin_pass"
 ynh_app_setting_set "$app" admin_name "$admin_name"
 ynh_app_setting_set "$app" admin_email "$admin_email"
 
-# Initialize database as needed
+#=================================================
+# Check password strength
+#=================================================
+
+[[ ${#admin_pass} -gt 5 ]] || ynh_die \
+"The password is too weak, it must be longer than 5 characters"
+
+#=================================================
+# STANDARD MODIFICATIONS
+#=================================================
+# CREATE A SQL BDD
+#=================================================
 
 db_name=$app
 db_user=$app
@@ -49,6 +87,14 @@ ynh_mysql_create_db "$db_name" "$db_user" "$db_pass"
 ynh_app_setting_set "$app" db_name "$db_name"
 ynh_app_setting_set "$app" db_pass "$db_pass"
 
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+
+final_path=/var/www/$app
+ynh_app_setting_set $app final_path $final_path
+SETUP_SOURCE	# Télécharge la source, décompresse et copie dans $final_path
+
 # Remove trailing "/" for next commands
 if [[ ! "$path" == "/" ]]; then
     path=${path%/}
@@ -56,9 +102,11 @@ fi
 
 # Copy files to the right place
 final_path=/var/www/$app
-ynh_app_setting_set "$app" final_path "$final_path"
 
-# PHP-FPM and && Conf 
+#=================================================
+# PHP-FPM CONFIGURATION
+#=================================================
+
 POOL_FPM
 
 # We download the sources and check the md5sum
@@ -67,6 +115,10 @@ sudo wget -nv -i ../sources/source_url -O ${SFILE}.tar.gz
 sudo md5sum -c ../sources/source_md5 --status || (echo "Corrupt source" >&2 && false)
 sudo tar xvf ${SFILE}.tar.gz -C ../sources/
 sudo cp -r -a ../sources/roadiz-0.17.0/. $final_path
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
 
 # Modify the config.yml
 sed -i "s@db_user@$db_user@g"         ../conf/config.yml
@@ -95,7 +147,10 @@ sudo rm $final_path/install.php
 
 
 
-# Modify Nginx configuration file and copy it to Nginx conf directory
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+
 sed -i "s@ROOT_PATH@$final_path@g"         ../conf/nginx.conf
 sed -i "s@APP_URL@$domain$path/@g" ../conf/nginx.conf
 nginxconf=/etc/nginx/conf.d/$domain.d/$app.conf
