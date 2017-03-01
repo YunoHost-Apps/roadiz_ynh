@@ -18,26 +18,6 @@ ynh_check_error	# Active trap pour arrêter le script si une erreur est détect�
 #=================================================
 # RETRIEVE ARGUMENTS FROM THE MANIFEST
 #=================================================
-#!/bin/bash
-
-#=================================================
-# GENERIC STARTING
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
-source .fonctions
-source /usr/share/yunohost/helpers
-
-#=================================================
-# MANAGE FAILURE OF THE SCRIPT
-#=================================================
-
-ynh_check_error	# Active trap pour arrêter le script si une erreur est détectée.
-
-#=================================================
-# RETRIEVE ARGUMENTS FROM THE MANIFEST
-#=================================================
 
 domain=$YNH_APP_ARG_DOMAIN
 path=$YNH_APP_ARG_PATH
