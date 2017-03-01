@@ -58,17 +58,6 @@ SETUP_SOURCE () {	# Télécharge la source, décompresse et copie dans $final_pa
 	# Extract source into the app dir
 	sudo mkdir -p $final_path
 	sudo tar -x -f source.tar.gz -C $final_path --strip-components 1
-	# Copie les fichiers additionnels ou modifiés.
-	if test -e "../sources/ajouts"; then
-		sudo cp -a ../sources/ajouts/. "$final_path"
-	fi
-}
-
-ADD_SYS_USER () {   # Créer un utilisateur système dédié à l'app
-        if ! ynh_system_user_exists "$app"	# Test l'existence de l'utilisateur
-        then
-            sudo useradd -d /var/www/$app --system --user-group $app --shell /usr/sbin/nologin || ynh_die "Unable to create $app system account"
-        fi
 }
 
 POOL_FPM () {	# Créer le fichier de configuration du pool php-fpm et le configure.
