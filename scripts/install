@@ -95,40 +95,27 @@ final_path=/var/www/$app
 ynh_app_setting_set $app final_path $final_path
 SETUP_SOURCE	# Télécharge la source, décompresse et copie dans $final_path
 
-# Remove trailing "/" for next commands
-if [[ ! "$path" == "/" ]]; then
-    path=${path%/}
-fi
-
-# Copy files to the right place
-final_path=/var/www/$app
-
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
 
 POOL_FPM
 
-# We download the sources and check the md5sum
-SFILE=`sudo cat ../sources/source_file`;
-sudo wget -nv -i ../sources/source_url -O ${SFILE}.tar.gz
-sudo md5sum -c ../sources/source_md5 --status || (echo "Corrupt source" >&2 && false)
-sudo tar xvf ${SFILE}.tar.gz -C ../sources/
-sudo cp -r -a ../sources/roadiz-0.17.0/. $final_path
-
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-
 # Modify the config.yml
+#=================================================
+
 sed -i "s@db_user@$db_user@g"         ../conf/config.yml
 sed -i "s@db_pass@$db_pass@g"         ../conf/config.yml
 sed -i "s@db_name@$db_name@g"         ../conf/config.yml
 sudo mv ../conf/config.yml $final_path/conf/config.yml
 
+#=================================================
+# Installation : Get Composer:
+#=================================================
 
-# Installation
-# Get Composer: 
 pushd $final_path
 sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -140,12 +127,13 @@ sudo ./bin/roadiz generate:nsentities;
 sudo sudo php ./bin/roadiz users:create $admin_name -n
 popd
 
+#=================================================
 # Set permissions
+#=================================================
+
 sudo chown www-data:www-data $final_path -R
 sudo chmod 775 $final_path -R
 sudo rm $final_path/install.php
-
-
 
 #=================================================
 # NGINX CONFIGURATION
@@ -158,12 +146,22 @@ sudo cp ../conf/nginx.conf $nginxconf
 sudo chown root: $nginxconf
 sudo chmod 644 $nginxconf
 
+#=================================================
+# SETUP SSOWAT
+#=================================================
 
-ynh_app_setting_set "$app" is_public "$is_public"
-if [ "$is_public" = "Yes" ];
+# Make app private if necessary
+ynh_app_setting_set $app is_public "$is_public"
+if [ $is_public -eq 0 ];
 then
-  ynh_app_setting_set "$app" unprotected_uris "/"
+	# Retire l'autorisation d'accès de la page d'install.
+	ynh_app_setting_delete $app unprotected_uris
+	# Rend la page d'actualisation accessible pour le script cron.
+	ynh_app_setting_get $app skipped_uris "/action.php"
 fi
 
+#=================================================
+# RELOAD NGINX
+#=================================================
+
 sudo service nginx reload
-sudo yunohost app ssowatconf
