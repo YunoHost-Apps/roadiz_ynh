@@ -29,7 +29,8 @@
 	Level 1=auto
 	Level 2=auto
 	Level 3=auto
-	Level 4=na   
+	Level 4=na  
+# level 4: for instance there is no ldap integration. There is already a MySQL integration.
 	Level 5=auto
 	Level 6=auto
 	Level 7=auto
