@@ -3,7 +3,7 @@
 <br> 
 
 ## Etat : Not working
-
+## Be aware that Roadiz is in its BETA VERSION.  
 ## Screenshot
 
 
