@@ -137,7 +137,7 @@ sudo rm $final_path/install.php
 #=================================================
 
 sed -i "s@ROOT_PATH@$final_path@g"         ../conf/nginx.conf
-sed -i "s@APP_URL@$domain$path/@g" ../conf/nginx.conf
+sed -i "s@APP_URL@$domain$path_url@g" ../conf/nginx.conf
 nginxconf=/etc/nginx/conf.d/$domain.d/$app.conf
 sudo cp ../conf/nginx.conf $nginxconf
 sudo chown root: $nginxconf
