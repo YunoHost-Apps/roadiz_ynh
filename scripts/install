@@ -135,11 +135,19 @@ sudo rm $final_path/install.php
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-
-sed -i "s@ROOT_PATH@$final_path@g"         ../conf/nginx.conf
+nginxconf="../conf/nginx.conf"
+if [ $path = "/" ]; then
+    sed -i "s@YNH_WWW_ROOTPATH@@g" ../conf/nginx.conf
+    sed -i "s@YNH_WWW_ROOTAPP@/@g" ../conf/nginx.conf
+else
+    sed -i "s@YNH_WWW_ROOTPATH@$path@g" ../conf/nginx.conf
+    sed -i "s@YNH_WWW_ROOTAPP@$path$path@g" ../conf/nginx.conf
+fi
+sed -i "s@YNH_WWW_PATH@$path@g" $nginxconf
+sed -i "s@YNH_WWW_FINALPATH@$final_path@g" $nginxconf
+sed -i "s@YNH_WWW_APP@$app@g" $nginxconf
 sed -i "s@APP_URL@$domain$path_url@g" ../conf/nginx.conf
-nginxconf=/etc/nginx/conf.d/$domain.d/$app.conf
-sudo cp ../conf/nginx.conf $nginxconf
+sudo cp $nginxconf /etc/nginx/conf.d/$domain.d/$app.conf
 sudo chown root: $nginxconf
 sudo chmod 644 $nginxconf
 
