@@ -122,7 +122,6 @@ sudo ./bin/roadiz themes:install -n --nodes "/Themes/DefaultTheme/DefaultThemeAp
 sudo ./bin/roadiz cache:clear -e dev
 sudo ./bin/roadiz cache:clear -e prod
 sudo php ./bin/roadiz cache:clear -e prod --preview
-sudo sudo php ./bin/roadiz users:create $admin_name -n
 popd
 
 #=================================================
