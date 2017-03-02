@@ -136,14 +136,12 @@ sudo rm $final_path/install.php
 # NGINX CONFIGURATION
 #=================================================
 nginxconf="../conf/nginx.conf"
-if [ $path = "/" ]; then
+if [ $path_url = "/" ]; then
     sed -i "s@YNH_WWW_ROOTPATH@@g" ../conf/nginx.conf
-    sed -i "s@YNH_WWW_ROOTAPP@/@g" ../conf/nginx.conf
 else
-    sed -i "s@YNH_WWW_ROOTPATH@$path@g" ../conf/nginx.conf
-    sed -i "s@YNH_WWW_ROOTAPP@$path$path@g" ../conf/nginx.conf
+    sed -i "s@YNH_WWW_ROOTPATH@$path_url@g" ../conf/nginx.conf
 fi
-sed -i "s@YNH_WWW_PATH@$path@g" $nginxconf
+sed -i "s@YNH_WWW_PATH@$path_url@g" $nginxconf
 sed -i "s@YNH_WWW_FINALPATH@$final_path@g" $nginxconf
 sed -i "s@YNH_WWW_APP@$app@g" $nginxconf
 sed -i "s@APP_URL@$domain$path_url@g" ../conf/nginx.conf
