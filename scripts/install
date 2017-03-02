@@ -87,6 +87,7 @@ POOL_FPM
 # Modify the config.yml
 #=================================================
 
+sudo rm $final_path/conf/config.default.yml
 sed -i "s@db_user@$db_user@g"         ../conf/config.yml
 sed -i "s@db_pass@$db_pass@g"         ../conf/config.yml
 sed -i "s@db_name@$db_name@g"         ../conf/config.yml
