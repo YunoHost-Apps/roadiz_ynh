@@ -102,8 +102,24 @@ sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bd
 sudo php composer-setup.php
 sudo php -r "unlink('composer-setup.php');"
 sudo ./composer.phar install --no-dev -o;
+# Create database schema
+sudo ./bin/roadiz orm:schema-tool:create -n
+# Install base fixtures
 sudo ./bin/roadiz install -n
-sudo ./bin/roadiz generate:nsentities;
+# Install DefaultTheme
+sudo ./bin/roadiz themes:install -n "/Themes/DefaultTheme/DefaultThemeApp"
+# Install DefaultTheme node-type, settings and tags
+sudo ./bin/roadiz themes:install -n --data "/Themes/DefaultTheme/DefaultThemeApp"
+# Generate node-type Doctrine entities
+sudo ./bin/roadiz generate:nsentities
+# Update database with new node-types
+sudo ./bin/roadiz orm:schema-tool:update -n --force
+# Add DefaultTheme node fixtures
+sudo ./bin/roadiz themes:install -n --nodes "/Themes/DefaultTheme/DefaultThemeApp"
+# Clear caches
+sudo ./bin/roadiz cache:clear -e dev
+sudo ./bin/roadiz cache:clear -e prod
+sudo php ./bin/roadiz cache:clear -e prod --preview
 sudo sudo php ./bin/roadiz users:create $admin_name -n
 popd
 
