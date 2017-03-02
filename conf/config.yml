@@ -1,11 +1,11 @@
-appNamespace: chooseAnUniqueNameForYourApp
-timezone: Europe/Paris
+appNamespace: "chooseAnUniqueNameForYourApp"
+timezone: "Europe/Paris"
 doctrine:
-    driver: pdo_mysql
-    host: localhost
-    user: db_user
+    driver: "pdo_mysql"
+    host: "localhost"
+    user: "db_user"
     password: 'db_pass'
-    dbname: db_name
+    dbname: "db_name"
     port: null
     unix_socket: null
     path: null
@@ -17,15 +17,15 @@ security:
     secret: 'change#this#secret#very#important'
 mailer:
     type: null
-    host: localhost
+    host: "localhost"
     port: 25
     encryption: false
     username: ''
     password: ''
 entities:
-    - src/Roadiz/Core/Entities
-    - src/Roadiz/Core/AbstractEntities
-    - gen-src/GeneratedNodeSources
+    - "src/Roadiz/Core/Entities"
+    - "src/Roadiz/Core/AbstractEntities"
+    - "gen-src/GeneratedNodeSources"
 rememberMeLifetime: 2592000
 additionalServiceProviders: {  }
 additionalCommands:
