@@ -136,8 +136,8 @@ sudo rm $final_path/install.php
 # NGINX CONFIGURATION
 #=================================================
 nginxconf="../conf/nginx.conf"
-sed -i "s@YNH_WWW_PATH@$path_url@g" $nginx_conf
-sed -i "s@YNH_WWW_ALIAS@$final_path@g" $nginx_conf
+sed -i "s@YNH_WWW_PATH@$path_url@g" $nginxconf
+sed -i "s@YNH_WWW_ALIAS@$final_path@g" $nginxconf
 sudo cp $nginxconf /etc/nginx/conf.d/$domain.d/$app.conf
 sudo chown root: $nginxconf
 sudo chmod 644 $nginxconf
