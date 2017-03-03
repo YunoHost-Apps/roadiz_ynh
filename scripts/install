@@ -135,12 +135,21 @@ sudo rm $final_path/install.php
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
+nginxrootconf="../conf/nginx-root.conf"
 nginxconf="../conf/nginx.conf"
-sed -i "s@YNH_WWW_PATH@$path_url@g" $nginxconf
-sed -i "s@YNH_WWW_ALIAS@$final_path@g" $nginxconf
-sudo cp $nginxconf /etc/nginx/conf.d/$domain.d/$app.conf
-sudo chown root: $nginxconf
-sudo chmod 644 $nginxconf
+if [ $path_url = "/" ]; then
+    sed -i "s@YNH_WWW_ROOTPATH@@g" $nginxrootconf
+    sed -i "s@YNH_WWW_ROOTAPP@/@g" $nginxrootconf
+    sudo chown root: $nginxrootconf
+    sudo chmod 644 $nginxrootconf
+    sudo cp $nginxrootconf /etc/nginx/conf.d/$domain.d/$app.conf
+else
+    sed -i "s@YNH_WWW_PATH@$path_url@g" $nginxconf
+    sed -i "s@YNH_WWW_ALIAS@$final_path@g" $nginxconf
+    sudo chown root: $nginxconf
+    sudo chmod 644 $nginxconf
+    sudo cp $nginxconf /etc/nginx/conf.d/$domain.d/$app.conf
+fi
 
 #=================================================
 # SETUP SSOWAT
