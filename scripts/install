@@ -138,7 +138,7 @@ sudo rm $final_path/install.php
 nginxrootconf="../conf/nginx-root.conf"
 nginxconf="../conf/nginx.conf"
 if [ $path_url = "/" ]; then
-    sed -i "s@YNH_WWW_ROOTPATH@@g" $nginxrootconf
+    sed -i "s@ROOT_PATH@/var/www/$app@g" $nginxrootconf
     sed -i "s@APP_URL@$domain$path_url@g" $nginxrootconf
     sudo chown root: $nginxrootconf
     sudo chmod 644 $nginxrootconf
