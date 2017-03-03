@@ -9,10 +9,10 @@
 		admin_email="abc@example.com"
 		
 	; Checks
-		pkg_linter=0
+		pkg_linter=1
 		setup_sub_dir=1
-		setup_root=0
-		setup_nourl=0
+		setup_root=1
+		setup_nourl=1
 		setup_private=1
 		setup_public=1
 		upgrade=0
