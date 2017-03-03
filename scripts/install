@@ -139,7 +139,7 @@ nginxrootconf="../conf/nginx-root.conf"
 nginxconf="../conf/nginx.conf"
 if [ $path_url = "/" ]; then
     sed -i "s@YNH_WWW_ROOTPATH@@g" $nginxrootconf
-    sed -i "s@YNH_WWW_ROOTAPP@/@g" $nginxrootconf
+    sed -i "s@APP_URL@$domain$path_url@g" $nginxrootconf
     sudo chown root: $nginxrootconf
     sudo chmod 644 $nginxrootconf
     sudo cp $nginxrootconf /etc/nginx/conf.d/$domain.d/$app.conf
