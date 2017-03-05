@@ -23,10 +23,10 @@ domain=$(ynh_app_setting_get $app domain)
 ### MySQL (remove if not used) ###
 # If a MySQL database is used:
 # # Dump the database
-dbname=$app
-dbuser=$app
-dbpass=$(ynh_app_setting_get "$app" mysqlpwd)
-mysqldump -u "$dbuser" -p"$dbpass" --no-create-db "$dbname" > ./dump.sql
+db_name=$app
+db_user=$app
+db_pass=$(ynh_app_setting_get "$app" mysqlpwd)
+mysqldump -u "$db_user" -p"$db_pass" --no-create-db "$db_name" > ./dump.sql
 ### MySQL end ###
 
 
