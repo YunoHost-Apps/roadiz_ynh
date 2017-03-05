@@ -67,7 +67,7 @@ ynh_mysql_create_db "$db_name" "$db_user" "$db_pass"
 ynh_app_setting_set "$app" db_name "$db_name"
 ynh_app_setting_set "$app" db_pass "$db_pass"
 ynh_app_setting_set "$app" db_user "$db_user"
-
+ynh_app_setting_set "$app" mysqlpwd "$db_pass"
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
