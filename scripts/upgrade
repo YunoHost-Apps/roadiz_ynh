@@ -19,44 +19,24 @@ language=$(ynh_app_setting_get "$app" language)
 # Remove trailing "/" for next commands
 path_url=${path_url%/}
 
-sudo cp $final_path/conf/config.yml /tmp/
-
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
 final_path=/var/www/$app
 ynh_app_setting_set $app final_path $final_path
-SETUP_SOURCE	# Télécharge la source, décompresse et copie dans $final_path
-
-# Set permissions to app files
-# you may need to make some file and/or directory writeable by www-data (nginx user)
-sudo chown -R root: $src_path
-
-sudo mv /tmp/config.yml $final_path/conf/config.yml
+sudo git pull origin master;
 
 pushd $final_path
 sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 sudo php composer-setup.php
 sudo php -r "unlink('composer-setup.php');"
-sudo ./composer.phar install --no-dev -o;
-# Install base fixtures
-sudo ./bin/roadiz install -n
-# Install DefaultTheme
-sudo ./bin/roadiz themes:install -n "/Themes/DefaultTheme/DefaultThemeApp"
-# Install DefaultTheme node-type, settings and tags
-sudo ./bin/roadiz themes:install -n --data "/Themes/DefaultTheme/DefaultThemeApp"
-# Generate node-type Doctrine entities
-sudo ./bin/roadiz generate:nsentities
-# Update database with new node-types
-sudo ./bin/roadiz orm:schema-tool:update -n --force
-# Add DefaultTheme node fixtures
-sudo ./bin/roadiz themes:install -n --nodes "/Themes/DefaultTheme/DefaultThemeApp"
-# Clear caches
-sudo ./bin/roadiz cache:clear -e dev
+sudo ./composer update -n --no-dev;
+sudo ./bin/roadiz generate:nsentities;
+sudo ./bin/roadiz orm:schema-tool:update --dump-sql;
+sudo ./bin/roadiz orm:schema-tool:update --force;
 sudo ./bin/roadiz cache:clear -e prod
-sudo php ./bin/roadiz cache:clear -e prod --preview
 popd
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
