@@ -122,7 +122,7 @@ sudo ./bin/roadiz themes:install -n --nodes "/Themes/DefaultTheme/DefaultThemeAp
 sudo ./bin/roadiz cache:clear -e dev
 sudo ./bin/roadiz cache:clear -e prod
 sudo ./bin/roadiz cache:clear -e prod --preview
-sudo ./bin/roadiz users:create -n --email=$admin_email --password=$admin_pass --super-admin $admin_name;"
+sudo ./bin/roadiz users:create -n --email=$admin_email --password=$admin_pass --super-admin $admin_name;
 popd
 
 #=================================================
