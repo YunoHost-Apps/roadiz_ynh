@@ -26,6 +26,8 @@ entities:
     - "../vendor/roadiz/roadiz/src/Roadiz/Core/Entities"
     - "../vendor/roadiz/roadiz/src/Roadiz/Core/AbstractEntities"
     - "gen-src/GeneratedNodeSources"
+additionalCommands:
+    - \Themes\DefaultTheme\Commands\DefaultThemeCommand
 rememberMeLifetime: 2592000
 additionalServiceProviders: []
 additionalCommands: []
