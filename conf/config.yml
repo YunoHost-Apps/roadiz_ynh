@@ -1,4 +1,4 @@
-appNamespace: "chooseAnUniqueNameForYourApp"
+appNamespace: "Roadiz"
 timezone: "Europe/Paris"
 doctrine:
     driver: "pdo_mysql"
