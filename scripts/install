@@ -88,11 +88,9 @@ POOL_FPM
 # Modify the config.yml
 #=================================================
 
-sudo rm $final_path/conf/config.default.yml
 sed -i "s@db_user@$db_user@g"         ../conf/config.yml
 sed -i "s@db_pass@$db_pass@g"         ../conf/config.yml
 sed -i "s@db_name@$db_name@g"         ../conf/config.yml
-sudo mv ../conf/config.yml $final_path/conf/config.yml
 
 #=================================================
 # Installation : Get Composer:
@@ -104,6 +102,11 @@ sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7a
 sudo php composer-setup.php
 sudo php -r "unlink('composer-setup.php');"
 sudo ./composer.phar install --no-dev -o;
+popd
+
+sudo mv ../conf/config.yml $final_path/conf/config.yml
+
+pushd $final_path
 # Create database schema
 sudo ./bin/roadiz orm:schema-tool:create -n
 # Install base fixtures
