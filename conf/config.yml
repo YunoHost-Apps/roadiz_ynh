@@ -26,15 +26,14 @@ entities:
     - "../vendor/roadiz/roadiz/src/Roadiz/Core/Entities"
     - "../vendor/roadiz/roadiz/src/Roadiz/Core/AbstractEntities"
     - "gen-src/GeneratedNodeSources"
-additionalCommands:
-    - \Themes\DefaultTheme\Commands\DefaultThemeCommand
 rememberMeLifetime: 2592000
 additionalServiceProviders: []
+additionalCommands:
+    - \Themes\DefaultTheme\Commands\DefaultThemeCommand
 additionalCommands: []
 assetsProcessing:
     driver: gd
     defaultQuality: 90
     maxPixelSize: 1920
-    jpegoptimPath: ~
-    pngquantPath: ~
-    subscribers: []
+    jpegoptimPath: null
+    pngquantPath: null
