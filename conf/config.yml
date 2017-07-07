@@ -23,16 +23,16 @@ mailer:
     username: ''
     password: ''
 entities:
-    - "src/Roadiz/Core/Entities"
-    - "src/Roadiz/Core/AbstractEntities"
+    - "../vendor/roadiz/roadiz/src/Roadiz/Core/Entities"
+    - "../vendor/roadiz/roadiz/src/Roadiz/Core/AbstractEntities"
     - "gen-src/GeneratedNodeSources"
 rememberMeLifetime: 2592000
-additionalServiceProviders: {  }
-additionalCommands:
-    - \Themes\DefaultTheme\Commands\DefaultThemeCommand
+additionalServiceProviders: []
+additionalCommands: []
 assetsProcessing:
     driver: gd
     defaultQuality: 90
     maxPixelSize: 1920
-    jpegoptimPath: null
-    pngquantPath: null
+    jpegoptimPath: ~
+    pngquantPath: ~
+    subscribers: []
