@@ -112,8 +112,12 @@ pushd $final_path
 sudo ./bin/roadiz orm:schema-tool:create -n
 # Install base fixtures
 sudo ./bin/roadiz install -n
+# CP of the Default theme
+sudo cp -r $final_path/vendor/roadiz/roadiz/themes/DefaultTheme $final_path/themes/
 # Install DefaultTheme
-sudo ./bin/roadiz themes:generate FooBar -n
+sudo ./bin/roadiz themes:install -n "/Themes/DefaultTheme/DefaultThemeApp"
+# Install DefaultTheme node-type, settings and tags
+sudo ./bin/roadiz themes:install -n --data "/Themes/DefaultTheme/DefaultThemeApp"
 # Generate node-type Doctrine entities
 sudo ./bin/roadiz generate:nsentities
 # Update database with new node-types
