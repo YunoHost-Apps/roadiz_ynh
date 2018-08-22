@@ -1,39 +1,53 @@
-appNamespace: "Roadiz"
+---
+appNamespace: "__APP__"
 timezone: "Europe/Paris"
 doctrine:
     driver: "pdo_mysql"
     host: "localhost"
     user: "db_user"
-    password: 'db_pass'
+    password: "db_pass"
     dbname: "db_name"
-    port: null
-    unix_socket: null
-    path: null
+    charset: utf8mb4
+    default_table_options:
+        charset: utf8mb4
+        collate: utf8mb4_unicode_ci
+# Register here your themes…
+themes: []
+# http://symfony.com/doc/current/reference/configuration/doctrine.html#caching-drivers
+# If null or empty, Roadiz will try to detect best cache driver available
 cacheDriver:
-    type: null
-    host: null
-    port: null
+    type: ~
+    host: ~
+    port: ~
 security:
-    secret: 'change#this#secret#very#important'
+    secret: "__SECRET__"
+    session_name: roadiz_token
+    session_cookie_secure: false
+    session_cookie_httponly: true
 mailer:
-    type: null
+    type: smtp
     host: "localhost"
     port: 25
     encryption: false
-    username: ''
-    password: ''
+    username: ""
+    password: ""
 entities:
     - "../vendor/roadiz/roadiz/src/Roadiz/Core/Entities"
-    - "../vendor/roadiz/roadiz/src/Roadiz/Core/AbstractEntities"
+    - "../vendor/roadiz/models/src/Roadiz/Core/AbstractEntities"
     - "gen-src/GeneratedNodeSources"
+# Lifetime of remember-me cookie in seconds (30 days)
 rememberMeLifetime: 2592000
 additionalServiceProviders: []
-additionalCommands:
-    - \Themes\DefaultTheme\Commands\DefaultThemeCommand
 additionalCommands: []
+# Image intervention and Intervention Request
+# settings for generating image on the fly
 assetsProcessing:
+    # gd or imagick (gd does not support TIFF and PSD formats)
     driver: gd
     defaultQuality: 90
+    # pixel size limit () after roadiz
+    # should create a smaller copy.
     maxPixelSize: 1920
-    jpegoptimPath: null
-    pngquantPath: null
+    jpegoptimPath: ~
+    pngquantPath: ~
+    subscribers: []
