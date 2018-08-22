@@ -1,2 +1,6 @@
-SOURCE_URL=https://github.com/roadiz/standard-edition/archive/0.19.1.tar.gz
-SOURCE_SUM=255653c47b53859cf76c2f230e3a695b
+SOURCE_URL=https://github.com/roadiz/standard-edition/archive/1.0.0.tar.gz
+SOURCE_SUM=3baec84e3afe62e05b5e75e490c6c323be67df6f6d8cf00a0591a2b9c3970d4f
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=true
+SOURCE_FILENAME=
