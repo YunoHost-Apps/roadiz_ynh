@@ -1,3 +1,5 @@
+[![Integration level](https://dash.yunohost.org/integration/roadiz.svg)](https://dash.yunohost.org/appci/app/roadiz) ![](https://ci-apps.yunohost.org/ci/badges/roadiz.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/roadiz.maintain.svg)
+
 [![Install Roadiz with YunoHost](https://github.com/ABLD/install-app/blob/master/install-with-yunohost-community.png)](https://install-app.yunohost.org/?app=roadiz)
 
 # roadiz_ynh
